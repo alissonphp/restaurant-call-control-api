@@ -59,6 +59,7 @@ class UserController {
 
     if (validation.fails()) {
       return response
+        .status(500)
         .send(validation.messages())
     }
 
