@@ -21,3 +21,21 @@ Factory.blueprint('App/Models/User', async (faker) => {
     provider: faker.word()
   }
 })
+
+Factory.blueprint('App/Models/Restaurant', async (faker) => {
+  return {
+    name: faker.word(),
+    address: faker.address(),
+    email: faker.email(),
+    telephone: faker.phone(),
+    logo: faker.avatar(),
+    active: faker.bool()
+  }
+})
+
+Factory.blueprint('App/Models/RestaurantTables', async (faker) => {
+  return {
+    identifier: faker.natural({ min: 1, max: 30 }),
+    active: faker.bool()
+  }
+})
