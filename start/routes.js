@@ -11,8 +11,9 @@ Route.group(
 
 Route.group(
   () => {
-    Route.resource('users', 'UserController')
-    Route.resource('restaurants', 'RestaurantController')
+    Route.resource('users', 'UserController').apiOnly()
+    Route.post('restaurants/tables', 'RestaurantController.addTable').as('restaurants.table.add')
+    Route.resource('restaurants', 'RestaurantController').apiOnly()
   })
   .prefix('api/v1')
   .namespace('Api/v1')
