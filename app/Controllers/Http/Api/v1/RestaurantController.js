@@ -31,7 +31,7 @@ class RestaurantController {
    * Show a list of all restaurants.
    * GET restaurants
    */
-  async index () {
+  async index() {
     return await Restaurant.all()
   }
 
@@ -39,7 +39,7 @@ class RestaurantController {
    * Create/save a new restaurant.
    * POST restaurants
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
     const data = request.all()
     const validation = await validate(data, rules, messages)
 
@@ -57,21 +57,41 @@ class RestaurantController {
    * Display a single restaurant.
    * GET restaurants/:id
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
+    const restaurant = await Restaurant.findOrFail(params.id)
+    await restaurant.load('tables')
+
+    return restaurant
   }
 
   /**
    * Update restaurant details.
    * PUT or PATCH restaurants/:id
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
   }
 
   /**
    * Delete a restaurant with id.
    * DELETE restaurants/:id
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response }) {
+    const restaurant = await Restaurant.findOrFail(params.id)
+    await restaurant.delete()
+
+    return response.send({ message: 'success' })
+  }
+
+  /**
+   * Add tables to restaurant
+   * POST restaurants/tables
+   */
+  async addTable({ request, response }) {
+    const restaurant = await Restaurant.findOrFail(request.input('restaurants_id'))
+    const table = await restaurant
+      .tables()
+      .create(request.all())
+    return table
   }
 }
 
