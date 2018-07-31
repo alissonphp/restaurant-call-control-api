@@ -1,7 +1,7 @@
 'use strict'
 
 class ACL {
-  async handle({ request, response, auth }, next, role) {
+  async handle({ response, auth }, next, role) {
     const user = await auth.getUser()
     if (user.role != role)
       return response
