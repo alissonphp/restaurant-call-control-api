@@ -1,7 +1,10 @@
 'use strict'
 
 const Restaurant = use('App/Models/Restaurant')
+const RestaurantTable = use('App/Models/RestaurantTables')
 const { validate } = use('Validator')
+const QRCode = use('qrcode')
+const Helpers = use('Helpers')
 
 /**
  * Rules to validate User data
@@ -45,7 +48,7 @@ class RestaurantController {
 
     if (validation.fails()) {
       return response
-        .status(500)
+        .status(400)
         .send(validation.messages())
     }
 
@@ -91,7 +94,30 @@ class RestaurantController {
     const table = await restaurant
       .tables()
       .create(request.all())
+    const imgname = Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8) + '.png'
+    await QRCode.toFile(Helpers.tmpPath('qrs') + '/' + imgname, request.input('identifier'), {
+      width: 2048,
+      color: {
+        light: '#0000'
+      }
+    }, (err) => {
+      if (err) throw err
+    })
+
+    table.qrcode_image = imgname
+    table.save()
+
     return table
+  }
+
+  /**
+   * Download qrcode image/png 2048x2048 pixels
+   * GET restaurants/table/qrcode/:id
+   */
+
+  async qrcode({ params, request, response }) {
+    const table = await RestaurantTable.findOrFail(params.id)
+    await response.download(Helpers.tmpPath('qrs/'+table.qrcode_image))
   }
 }
 
