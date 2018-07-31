@@ -1,0 +1,31 @@
+'use strict'
+
+const Schema = use('Schema')
+
+class MenuItemSchema extends Schema {
+  up () {
+    this.create('menu_items', (table) => {
+      table.increments()
+      table.integer('menu_categories_id').unsigned()
+      table.foreign('menu_categories_id').references('id').inTable('menu_categories')
+      table.integer('restaurants_id').unsigned()
+      table.foreign('restaurants_id').references('id').inTable('restaurants')
+      table.string('title').notNullable()
+      table.text('description').notNullable()
+      table.string('photo').nullable()
+      table.float('price').notNullable()
+      table.integer('serves').notNullable()
+      table.boolean('shrimp').notNullable()
+      table.boolean('chili').notNullable()
+      table.enu('chili_level', [1,2,3]).nullable()
+      table.timestamps()
+      table.boolean('active').notNullable()
+    })
+  }
+
+  down () {
+    this.drop('menu_items')
+  }
+}
+
+module.exports = MenuItemSchema
