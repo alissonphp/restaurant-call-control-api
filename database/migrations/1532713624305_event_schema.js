@@ -7,7 +7,7 @@ class EventSchema extends Schema {
     this.create('events', (table) => {
       table.increments()
       table.integer('restaurants_id').unsigned()
-      table.foreign('restaurants_id').references('id').inTable('restaurants')
+      table.foreign('restaurants_id').references('id').inTable('restaurants').onDelete('CASCADE')
       table.string('event').notNullable()
       table.text('description').nullable()
       table.string('cover').nullable()

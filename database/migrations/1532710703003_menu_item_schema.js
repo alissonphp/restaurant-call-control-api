@@ -7,9 +7,9 @@ class MenuItemSchema extends Schema {
     this.create('menu_items', (table) => {
       table.increments()
       table.integer('menu_categories_id').unsigned()
-      table.foreign('menu_categories_id').references('id').inTable('menu_categories')
+      table.foreign('menu_categories_id').references('id').inTable('menu_categories').onDelete('CASCADE')
       table.integer('restaurants_id').unsigned()
-      table.foreign('restaurants_id').references('id').inTable('restaurants')
+      table.foreign('restaurants_id').references('id').inTable('restaurants').onDelete('CASCADE')
       table.string('title').notNullable()
       table.text('description').notNullable()
       table.string('photo').nullable()

@@ -7,7 +7,7 @@ class RestaurantTablesSchema extends Schema {
     this.create('restaurant_tables', (table) => {
       table.increments()
       table.integer('restaurants_id').unsigned()
-      table.foreign('restaurants_id').references('id').inTable('restaurants')
+      table.foreign('restaurants_id').references('id').inTable('restaurants').onDelete('CASCADE')
       table.string('identifier', 30).notNullable()
       table.boolean('active').default(false)
       table.timestamps()
