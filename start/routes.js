@@ -13,6 +13,7 @@ Route.group(
   () => {
     Route.resource('users', 'UserController').apiOnly()
     Route.post('restaurants/tables', 'RestaurantController.addTable').as('restaurants.table.add')
+    Route.delete('restaurants/tables/:id', 'RestaurantController.deleteTable').as('restaurants.table.delete')
     Route.resource('restaurants', 'RestaurantController').apiOnly()
     Route.resource('categories', 'MenuCategoryController').apiOnly()
     Route.resource('items', 'MenuItemController').apiOnly()
