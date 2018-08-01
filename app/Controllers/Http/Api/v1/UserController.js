@@ -2,6 +2,7 @@
 
 const User = use('App/Models/User')
 const { validate } = use('Validator')
+const Hash = use('Hash')
 
 /**
  * Rules to validate User data
@@ -11,6 +12,14 @@ const rules = {
   email: 'required|email|unique:users,email',
   password: 'required',
   cpf: 'required|unique:users,cpf',
+  role: 'required|in:admin,client,customer_service,manager'
+}
+
+const rulesUpdate = {
+  username: 'required',
+  email: 'required|email',
+  password: 'required',
+  cpf: 'required',
   role: 'required|in:admin,client,customer_service,manager'
 }
 
@@ -82,14 +91,33 @@ class UserController {
    * PUT or PATCH users/:id
    */
   async update({ params, request, response }) {
+
+    const validation = await validate(request.all(), rulesUpdate, messages)
+
+    if (validation.fails()) {
+      return response
+        .status(500)
+        .send(validation.messages())
+    }
+
     const user = await User.findOrFail(params.id)
+    user.username = request.input('username')
+    user.email = request.input('email')
+    user.cpf = request.input('cpf')
+    user.role = request.input('role')
+    if (request.input('password') !== "") {
+      user.password = await Hash.make(request.input('password'))
+    }
+
+    user.save()
+    return user
   }
 
   /**
    * Delete a user with id.
    * DELETE users/:id
    */
-  async destroy({ params, request, response }) {
+  async destroy({ params, response }) {
 
     const user = await User.findOrFail(params.id)
     await user.delete()
