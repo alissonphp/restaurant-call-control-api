@@ -94,7 +94,9 @@ class RestaurantController {
     const table = await restaurant
       .tables()
       .create(request.all())
+
     const imgname = Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8) + '.png'
+    
     await QRCode.toFile(Helpers.tmpPath('qrs') + '/' + imgname, request.input('identifier'), {
       width: 2048,
       color: {
@@ -111,13 +113,24 @@ class RestaurantController {
   }
 
   /**
+   * Delete a restaurant table
+   * DELETE restaurants/table/:id
+   */
+  async deleteTable({ request, response }) {
+    const table = await RestaurantTable.findOrFail(request.params.id)
+    table.delete()
+    
+    return response.send({ message: 'success' })
+  }
+
+  /**
    * Download qrcode image/png 2048x2048 pixels
    * GET restaurants/table/qrcode/:id
    */
 
   async qrcode({ params, request, response }) {
     const table = await RestaurantTable.findOrFail(params.id)
-    await response.download(Helpers.tmpPath('qrs/'+table.qrcode_image))
+    await response.attachment(Helpers.tmpPath('qrs/' + table.qrcode_image))
   }
 }
 
