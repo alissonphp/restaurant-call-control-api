@@ -1,20 +1,19 @@
 'use strict'
 
 const Factory = use('Factory')
-const Restaurant = use('App/Models/Restaurant')
 
 class EventSeeder {
-  async run () {
+  async run() {
 
-    const restaurant = await Restaurant.first()
+    const restaurant = await Factory
+      .model('App/Models/Restaurant')
+      .create()
 
-    await Factory
-    .model('App/Models/Event')
-    .createMany(8, 
-      {
-        restaurants_id: restaurant.id
-      }
-    )
+    const event = await Factory
+      .model('App/Models/Event')
+      .make()
+
+    await restaurant.events().save(event)
 
     console.log('events table seeder successfully')
   }
