@@ -12,9 +12,11 @@ Route.group(
 Route.group(
   () => {
     Route.resource('users', 'UserController').apiOnly()
-    Route.post('restaurants/tables', 'RestaurantController.addTable').as('restaurants.table.add')
-    Route.delete('restaurants/tables/:id', 'RestaurantController.deleteTable').as('restaurants.table.delete')
-    Route.resource('restaurants', 'RestaurantController').apiOnly()
+    Route.post('restaurants/tables', 'Restaurant/RestaurantController.addTable').as('restaurants.table.add')
+    Route.delete('restaurants/:id/tables', 'Restaurant/RestaurantController.deleteTable').as('restaurants.table.delete')
+    Route.get('restaurants/:id/categories', 'Restaurant/CategoryController.list').as('restaurants.category.list')
+    Route.resource('restaurants', 'Restaurant/RestaurantController').apiOnly()
+    Route.get('categories/:id/items', 'Restaurant/CategoryController.items').as('restaurants.category.items')
     Route.resource('categories', 'MenuCategoryController').apiOnly()
     Route.resource('items', 'MenuItemController').apiOnly()
     Route.resource('events', 'EventController').apiOnly()
