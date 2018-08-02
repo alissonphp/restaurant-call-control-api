@@ -8,8 +8,6 @@ class MenuItemSchema extends Schema {
       table.increments()
       table.integer('menu_categories_id').unsigned()
       table.foreign('menu_categories_id').references('id').inTable('menu_categories').onDelete('CASCADE')
-      table.integer('restaurants_id').unsigned()
-      table.foreign('restaurants_id').references('id').inTable('restaurants').onDelete('CASCADE')
       table.string('title').notNullable()
       table.text('description').notNullable()
       table.string('photo').nullable()
@@ -18,8 +16,8 @@ class MenuItemSchema extends Schema {
       table.boolean('shrimp').notNullable()
       table.boolean('chili').notNullable()
       table.enu('chili_level', [1,2,3]).nullable()
-      table.timestamps()
       table.boolean('active').notNullable()
+      table.timestamps()
     })
   }
 

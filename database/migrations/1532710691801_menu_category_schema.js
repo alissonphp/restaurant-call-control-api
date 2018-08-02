@@ -7,6 +7,9 @@ class MenuCategorySchema extends Schema {
     this.create('menu_categories', (table) => {
       table.increments()
       table.string('category').notNullable()
+      table.integer('restaurants_id').unsigned()
+      table.foreign('restaurants_id').references('id').inTable('restaurants').onDelete('CASCADE')
+      table.boolean('active')
       table.timestamps()
     })
   }

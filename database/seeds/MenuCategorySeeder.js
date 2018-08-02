@@ -3,12 +3,19 @@
 const Factory = use('Factory')
 
 class MenuCategorySeeder {
-  async run () {
-    await Factory
-      .model('App/Models/MenuCategory')
-      .createMany('6')
+  async run() {
+    
+    const restaurant = await Factory
+      .model('App/Models/Restaurant')
+      .create()
 
-      console.log('menu_categories table seeder successfully')
+    const category = await Factory
+      .model('App/Models/MenuCategory')
+      .make()
+
+    await restaurant.categories().save(category)
+
+    console.log('menu_categories table seeder successfully')
   }
 }
 

@@ -1,22 +1,19 @@
 'use strict'
 
 const Factory = use('Factory')
-const Restaurant = use('App/Models/Restaurant')
-const MenuCategory = use('App/Models/MenuCategory')
 
 class MenuItemSeeder {
   async run() {
-    const restaurant = await Restaurant.first()
-    const category = await MenuCategory.first()
 
-    await Factory
+    const category = Factory
+      .model('App/Models/MenuCategory')
+      .create()
+
+    const item = await Factory
       .model('App/Models/MenuItem')
-      .createMany(8, 
-        {
-          restaurants_id: restaurant.id,
-          categories_id: category.id
-        }
-      )
+      .make()
+
+    await category.items().save(item)
 
     console.log('menu_items table seeder successfully')
   }

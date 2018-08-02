@@ -3,10 +3,7 @@
 const Model = use('Model')
 
 class MenuItem extends Model {
-    restaurant() {
-        return this.belongsTo('App/Models/Restaurant', 'id', 'restaurants_id')
-    }
-    menuCategory() {
+    category() {
         return this.belongsTo('App/Models/MenuCategory', 'id', 'menu_categories_id')
     }
 }

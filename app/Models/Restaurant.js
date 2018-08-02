@@ -8,8 +8,8 @@ class Restaurant extends Model {
         return this.hasMany('App/Models/RestaurantTables', 'id', 'restaurants_id')
     }
 
-    menuItems() {
-        return this.hasMany('App/Models/MenuItem', 'id', 'restaurants_id')
+    categories() {
+        return this.hasMany('App/Models/MenuCategory', 'id', 'restaurants_id')
     }
 
     events() {

@@ -48,8 +48,6 @@ Factory.blueprint('App/Models/MenuCategory', async (faker) => {
 
 Factory.blueprint('App/Models/MenuItem', async (faker, i, data) => {
   return {
-    restaurants_id: data.restaurants_id,
-    menu_categories_id: data.categories_id,
     title: faker.sentence(),
     description: faker.paragraph(),
     photo: faker.avatar(),
