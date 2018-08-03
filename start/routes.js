@@ -12,12 +12,15 @@ Route.group(
 Route.group(
   () => {
     Route.resource('users', 'UserController').apiOnly()
-    Route.post('restaurants/tables', 'Restaurant/RestaurantController.addTable').as('restaurants.table.add')
+    Route.post('restaurants/tables', 'Restaurant/RestaurantController.addTable').as('restaurants.table.store')
     Route.delete('restaurants/:id/tables', 'Restaurant/RestaurantController.deleteTable').as('restaurants.table.delete')
     Route.get('restaurants/:id/categories', 'Restaurant/CategoryController.list').as('restaurants.category.list')
+    Route.post('restaurants/:id/categories', 'Restaurant/CategoryController.store').as('restaurants.category.store')
     Route.resource('restaurants', 'Restaurant/RestaurantController').apiOnly()
     Route.get('categories/:id/items', 'Restaurant/CategoryController.items').as('restaurants.category.items')
-    Route.resource('categories', 'MenuCategoryController').apiOnly()
+    Route.delete('categories/:id', 'Restaurant/CategoryController.delete').as('restaurants.category.delete')
+    Route.put('categories/:id', 'Restaurant/CategoryController.update').as('restaurants.category.update')
+    Route.post('categories/:id/status', 'Restaurant/CategoryController.status').as('restaurants.category.status')
     Route.resource('items', 'MenuItemController').apiOnly()
     Route.resource('events', 'EventController').apiOnly()
     Route.resource('points', 'UserPointController').apiOnly()
